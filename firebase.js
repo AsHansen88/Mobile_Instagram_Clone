@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from "firebase/storage"
+import { Text, View } from 'react-native';
 import * as firebase from './firebase'
 
 // TODO: Add SDKs for Firebase products that you want to use
