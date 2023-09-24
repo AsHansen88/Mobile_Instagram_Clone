@@ -47,7 +47,8 @@ export class App extends Component {
         </View>
       )
     }
-    return (
+    if(!loggedIn){
+      return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Landing">
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
@@ -56,6 +57,16 @@ export class App extends Component {
       </NavigationContainer>
     )
   }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center' }}>
+      <Text> 
+        User is logged in     
+      </Text>
+    </View>
+  )
+
 }
+} 
 
 export default App;
