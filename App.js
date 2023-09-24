@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LandingScreen from './components/auth/Landing.js'
-import RegisterScreen from './components/auth/Landing.js'
+import RegisterScreen from './components/auth/Register.js'
 
 const Stack = createStackNavigator();
 export default function App() {
