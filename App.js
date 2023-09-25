@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { applyMiddleware, configureStore} from '@reduxjs/toolkit';
 import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
-import MainScreen from './components/Main.js'
+//import MainScreen from './components/Main.js'
 import AddScreen  from './components/Main/Add'
 import SaveScreen  from './components/Main/Save'
 
