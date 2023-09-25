@@ -14,6 +14,7 @@ import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
 import MainScreen from './components/Main.js'
 import AddScreen  from './components/Main/Add'
+import SaveScreen  from './components/Main/Save'
 
 
 const store = configureStore({
@@ -78,7 +79,8 @@ export class App extends Component {
     <Stack.Navigator initialRouteName="Main">
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Add" component={AddScreen} />
-        </Stack.Navigator>
+          <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} />
+    </Stack.Navigator>
         </NavigationContainer>
     </Provider>
   )

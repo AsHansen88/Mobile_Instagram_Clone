@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function App() {
+export default function Add(Navigation) {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [hasCameraPermission, setHasCameraPermissions] = useState(null);
@@ -78,6 +78,8 @@ export default function App() {
         <Button
           title="Take picture" onPress={() => takePicture() }/>
           {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+          <Button
+          title="Save" onPress={() => Navigation.navigate('Save', { image })}/>
 
       </View>
     </View>
