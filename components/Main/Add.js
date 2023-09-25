@@ -7,6 +7,8 @@ export default function App() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [hasCameraPermission, setHasCameraPermissions] = useState(null);
+  const [image, setImage] = useState(null);
+
 
   useEffect(async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -15,6 +17,14 @@ export default function App() {
     const imagePickerStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
     setHasPermissions(imagePickerStatus.status === 'granted');
   }, []);
+
+  const takePicture = async () => {
+    if (camera){
+      const data = await camera.takePictureAsync(null)
+      console.log(data.uri)
+    }
+  }
+
 
   if (!permission) {
     return <View />;
@@ -27,7 +37,10 @@ export default function App() {
       aspect: [1, 1],
       quality: 1,
     });
-    console.log(result);
+  
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
   };
 
   if (!hasCameraPermission) {
@@ -62,6 +75,10 @@ export default function App() {
           onPress={() => PickImage()}
           style={styles.pickImageButton}
         />
+        <Button
+          title="Take picture" onPress={() => takePicture() }/>
+          {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+
       </View>
     </View>
   );
