@@ -12,19 +12,18 @@ export default function App() {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setHasCameraPermissions(status === 'granted');
 
-    const imagePickerStatus = await ImagePicker.requestMediaLibraryPermissionsAsync(); // Use requestMediaLibraryPermissionsAsync for image picker
+    const imagePickerStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
     setHasPermissions(imagePickerStatus.status === 'granted');
   }, []);
 
   if (!permission) {
-    // Camera permissions are still loading
     return <View />;
   }
 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, 
+      allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
@@ -32,7 +31,6 @@ export default function App() {
   };
 
   if (!hasCameraPermission) {
-    // Camera permissions are not granted yet
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
@@ -49,18 +47,22 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-          <Button
+      <View style={styles.cameraContainer}>
+        <Camera style={styles.camera} type={type}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+              <Text style={styles.text}>Flip Camera</Text>
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
           title="Pick Image from Gallery"
-           onPress={() => PickImage()}
-           style={styles.button} // Add this style prop
-/>
-        </View>
-      </Camera>
+          onPress={() => PickImage()}
+          style={styles.pickImageButton}
+        />
+      </View>
     </View>
   );
 }
@@ -68,27 +70,29 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  cameraContainer: {
+    flex: 1,
   },
   camera: {
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: { 
-    flex: 1,
-    alignSelf: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
-    width: 10,
-    height: 10, // Adjust the height as needed
+    margin: 16,
+  },
+  button: {
+    backgroundColor: 'transparent',
+    padding: 16,
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
+  },
+  pickImageButton: {
+    margin: 16,
   },
 });
