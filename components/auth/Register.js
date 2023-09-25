@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
-import { auth } from '../../firebase'; 
+import { auth } from '../../firebase';
+import firebase from '../../firebase';
 
 export default class Register extends Component {
   constructor(props) {
@@ -12,18 +13,24 @@ export default class Register extends Component {
       name: ''
     };
 
+    // Bind the function properly
     this.onSignUp = this.onSignUp.bind(this);
   }
 
   async onSignUp() {
-    const { email, password } = this.state;
+    const { email, password, name } = this.state; 
 
     try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      console.log('User registered:', user);
+      const result = await firebase.auth().createUserWithEmailAndPassword(email, password); // Corrected the function call
+      await firebase.firestore().collection("users")
+        .doc(firebase.auth().currentUser.uid) 
+        .set({
+          name,
+          email
+        });
+      console.log(result);
     } catch (error) {
-      console.error('Error registering user:', error);
+      console.error(error);
     }
   }
 
@@ -55,7 +62,7 @@ export default class Register extends Component {
   }
 }
 
-
+  
 
 
 
