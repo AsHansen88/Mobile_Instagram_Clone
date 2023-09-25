@@ -1,15 +1,18 @@
 import { USER_STATE_CHANGE } from '../constants';
 import firebase from '../../../firebase';
+import { auth } from '../../../firebase'; 
 
 export function fetchUser() {
   return (dispatch) => {
-    // Get the current user
-    const currentUser = firebase.auth().currentUser;
+    
+    const auth = firebase.auth(); 
+    const currentUser = auth.currentUser;
+    console.log('Current User:', currentUser);
 
     if (currentUser) {
       firebase
         .firestore()
-        .collection('user')
+        .collection("user")
         .doc(currentUser.uid)
         .get()
         .then((snapshot) => {
@@ -25,6 +28,7 @@ export function fetchUser() {
         });
     } else {
       console.log('No user is currently logged in');
+      // You may want to dispatch an action here to handle the case where no user is logged in.
     }
   };
 }

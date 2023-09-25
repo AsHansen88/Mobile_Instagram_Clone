@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import { fetchUser } from './Redux/Action/index';
 
-class main extends Component {
+class Main extends Component {
   componentDidMount() {
     this.props.fetchUser();
   }
@@ -28,4 +28,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchUser }, dispatch); 
 
-export default connect(mapStateToProps, mapDispatchToProps)(main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -8,16 +8,15 @@ import RegisterScreen from './components/auth/Register.js'
 import { auth } from './firebase'; 
 import { initializeApp } from './firebase';
 import { Provider } from 'react-redux'
-import { getDefaultMiddleware, configureStore} from '@reduxjs/toolkit';
+import { applyMiddleware, configureStore} from '@reduxjs/toolkit';
 import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
-import MainScreen from './components/main.js'
-
+import MainScreen from './components/Main.js'
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(thunk);
+  middleware: (applyMiddleware) => {
+    return applyMiddleware().concat(thunk);
   },
 });
 
