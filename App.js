@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './components/auth/Landing.js'
 import RegisterScreen from './components/auth/Register.js'
+import LoginScreen from './components/auth/Login.js'
 import { auth } from './firebase'; 
 import { initializeApp } from './firebase';
 import { Provider } from 'react-redux'
@@ -12,7 +13,7 @@ import { applyMiddleware, configureStore} from '@reduxjs/toolkit';
 import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
 import MainScreen from './components/Main.js'
-import  AddScreen  from './components/Main/Add'
+import AddScreen  from './components/Main/Add'
 
 
 const store = configureStore({
