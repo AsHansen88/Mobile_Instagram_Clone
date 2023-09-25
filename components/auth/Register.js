@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
-import { auth } from '../../firebase';
-import firebase from '../../firebase';
+//import { auth } from '../../firebase';
+//import firebase from '../../firebase';
+import * as firebase from '../../firebase'
+//import React, { Component } from 'react';
+//import { View, Button, TextInput } from 'react-native';
+import { auth, firestore } from '../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 
 export default class Register extends Component {
   constructor(props) {
@@ -18,21 +23,18 @@ export default class Register extends Component {
   }
 
   async onSignUp() {
-    const { email, password, name } = this.state; 
+    const { email, password, name } = this.state;
 
     try {
-      const result = await firebase.auth().createUserWithEmailAndPassword(email, password); // Corrected the function call
-      await firebase.firestore().collection("users")
-        .doc(firebase.auth().currentUser.uid) 
-        .set({
-          name,
-          email
-        });
+      const result = await createUserWithEmailAndPassword(auth, email, password); // Use createUserWithEmailAndPassword from auth
+      await setDoc(doc(firestore, 'users', auth.currentUser.uid), { name, email }); // Use firestore functions
       console.log(result);
     } catch (error) {
       console.error(error);
     }
   }
+  
+  
 
   render() {
     return (

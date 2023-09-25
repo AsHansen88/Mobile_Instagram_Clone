@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from 'firebase/firestore'
-import { getStorage } from "firebase/storage"
-import { getAuth } from "firebase/auth"; 
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getAnalytics } from 'firebase/analytics';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,21 +24,8 @@ const firebaseConfig = {
   measurementId: "G-TXTNEPLR66"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize Firebase Auth
 const auth = getAuth(app);
+const firestore = getFirestore(app);
 
-// Check if Firebase Auth is already initialized
-if (!auth) {
-  // Initialize Firebase Auth only if it's not already initialized
-  initializeAuth(app);
-}
-
-const analytics = getAnalytics(app);
-const database = getFirestore(app);
-const storage = getStorage(app);
-
-export { app, auth, analytics, database, storage };
-export { firebaseConfig };
+export { app, auth, firestore };
