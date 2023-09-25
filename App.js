@@ -12,6 +12,8 @@ import { applyMiddleware, configureStore} from '@reduxjs/toolkit';
 import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
 import MainScreen from './components/Main.js'
+import  AddScreen  from './components/Main/Add'
+
 
 const store = configureStore({
   reducer: rootReducer,
@@ -63,7 +65,8 @@ export class App extends Component {
         <Stack.Navigator initialRouteName="Landing">
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreen} />
-        </Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginScreen} />
+       </Stack.Navigator>
       </NavigationContainer>
     )
   }
@@ -73,6 +76,7 @@ export class App extends Component {
       <NavigationContainer>
     <Stack.Navigator initialRouteName="Main">
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Add" component={AddScreen} />
         </Stack.Navigator>
         </NavigationContainer>
     </Provider>
