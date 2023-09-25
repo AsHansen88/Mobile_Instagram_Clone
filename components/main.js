@@ -1,34 +1,31 @@
-import React, { Component } from 'react'
-import {View, Text} from 'react-native'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { fetchUser } from './Redux/Action/index'
-import { updateCurrentUser } from 'firebase/auth'
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'; 
+import { fetchUser } from './Redux/Action/index';
 
+class main extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
 
-export class main extends Component {
-    componentDidMount(){
-        this.props.fetchUser();
+  render() {
+    const { currentUser } = this.props;
 
-    }
-  
-    render() {
-        const { correntUser } = this.props;
-
-        console.log(currentUser)
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Text> 
-        User is logged in     
-      </Text>
-    </View>
-    )
+        <Text>User is logged in</Text>
+      </View>
+    );
   }
 }
 
-const mapStateToProps = (store) => ({
-    correntUser: store.userState.correntUser
-})
-const mapDespatchProps = (dispatch) => bindActionCreaters({fetchUser}, dispatch)
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.userState.currentUser,
+  };
+};
 
-export default connect (null, mapStateToProps, mapDespatchProps)(main);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchUser }, dispatch); 
+
+export default connect(mapStateToProps, mapDispatchToProps)(main);

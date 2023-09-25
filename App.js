@@ -11,7 +11,8 @@ import { Provider } from 'react-redux'
 import { getDefaultMiddleware, configureStore} from '@reduxjs/toolkit';
 import  rootReducer  from './components/Redux/reducers/index'
 import thunk from 'redux-thunk'
-import mainScreen from './components/main.js'
+import MainScreen from './components/main.js'
+
 
 const store = configureStore({
   reducer: rootReducer,
@@ -70,7 +71,7 @@ export class App extends Component {
 
   return (
     <Provider store= {store}>
-    <mainScreen />
+    <MainScreen />
     </Provider>
   )
 
