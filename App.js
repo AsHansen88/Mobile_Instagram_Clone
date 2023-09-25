@@ -7,7 +7,18 @@ import LandingScreen from './components/auth/Landing.js'
 import RegisterScreen from './components/auth/Register.js'
 import { auth } from './firebase'; 
 import { initializeApp } from './firebase';
+import { Provider } from 'react-redux'
+import { getDefaultMiddleware, configureStore} from '@reduxjs/toolkit';
+import  rootReducer  from './components/Redux/reducers/index'
+import thunk from 'redux-thunk'
+import mainScreen from './components/main.js'
 
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(thunk);
+  },
+});
 
 const Stack = createStackNavigator();
 
@@ -58,11 +69,9 @@ export class App extends Component {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Text> 
-        User is logged in     
-      </Text>
-    </View>
+    <Provider store= {store}>
+    <mainScreen />
+    </Provider>
   )
 
 }
