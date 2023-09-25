@@ -23,7 +23,7 @@ class Main extends Component {
   render() {
 
     return (
-      <Tab.Navigator initialRouteName='Feed'>
+      <Tab.Navigator initialRouteName='Feed' >
         <Tab.Screen name="Feed" component={FeedScreen} options= {{
           tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color= {color} size= {26}/>
