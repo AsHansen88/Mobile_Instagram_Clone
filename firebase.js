@@ -21,6 +21,7 @@ const firebaseConfig = {
   measurementId: "G-TXTNEPLR66"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);

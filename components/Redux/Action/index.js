@@ -7,7 +7,6 @@ export function fetchUser() {
     const currentUser = firebase.auth().currentUser;
 
     if (currentUser) {
-      // Access Firestore and fetch user data
       firebase
         .firestore()
         .collection('user')
