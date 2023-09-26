@@ -8,7 +8,7 @@ export default function Save({ route, navigation }) {
   const uploadImage = async () => {
     try {
       const uri = route.params.image;
-      const childPath = `post/${auth.currentUser.uid}/${Math.random().toString(36)}`;
+      const childPath = `post/${storage.auth().currentUser.uid}/${Math.random().toString(36)}`;
       const response = await fetch(uri);
       const blob = await response.blob();
       const task = storage.ref().child(childPath).put(blob);

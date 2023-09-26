@@ -1,10 +1,11 @@
-import { USER_STATE_CHANGE } from '../constants/index';
-import { auth, firestore } from '../../../firebase'; // Import auth and firestore from your Firebase configuration
-import { collection, doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
+import { USER_POST_STATE_CHANGE, USER_STATE_CHANGE } from '../constants/index';
+import { auth, firestore } from '../../../firebase'; 
+import { doc, collection, query, orderBy, getDocs } from 'firebase/firestore'; 
+
 
 export function fetchUser() {
   return async (dispatch) => {
-    const user = auth.currentUser; // Access the current user from Firebase auth
+    const user = auth.currentUser;
 
     if (user) {
       const userDocRef = doc(firestore, 'user', user.uid);
@@ -23,7 +24,37 @@ export function fetchUser() {
       }
     } else {
       console.log('No user is currently logged in');
-      // You may want to dispatch an action here to handle the case where no user is logged in.
+      
+    }
+  };
+}
+
+export function fetchUserPosts() {
+  return async (dispatch) => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const postsCollectionRef = collection(firestore, 'posts');
+      const postsQuery = query(
+        postsCollectionRef,
+        orderBy('creation', 'asc') 
+      );
+
+      try {
+        const snapshot = await getDocs(postsQuery);
+        const userPosts = [];
+
+        snapshot.forEach((doc) => {
+          userPosts.push(doc.data());
+        });
+
+        console.log(userPosts);
+        dispatch({ type: USER_POST_STATE_CHANGE, userPosts });
+      } catch (error) {
+        console.error('Error fetching user posts:', error);
+      }
+    } else {
+      console.log('No user is currently logged in');
     }
   };
 }
