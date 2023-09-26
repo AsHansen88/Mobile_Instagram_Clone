@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, Button, Alert } from 'react-native'; // Import Alert for error handling
+import { View, TextInput, Image, Button, Alert } from 'react-native';
 import { auth, storage } from '../../firebase';
 
-export default function Save(props) {
+export default function Save({ route, navigation }) {
   const [caption, setCaption] = useState('');
 
   const uploadImage = async () => {
     try {
-      const uri = props.route.params.image;
+      const uri = route.params.image;
       const childPath = `post/${auth.currentUser.uid}/${Math.random().toString(36)}`;
       const response = await fetch(uri);
       const blob = await response.blob();
@@ -27,6 +27,8 @@ export default function Save(props) {
           console.log(downloadURL);
           // You can do something with the downloadURL here
           Alert.alert('Success', 'Image uploaded successfully.');
+          // Navigate to another screen if needed
+          navigation.navigate('Save');
         }
       );
     } catch (error) {
@@ -37,7 +39,7 @@ export default function Save(props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Image source={{ uri: props.route.params.image }} />
+      <Image source={{ uri: route.params.image }} />
       <TextInput
         placeholder="Write a Caption . . ."
         onChangeText={(text) => setCaption(text)}
@@ -46,3 +48,4 @@ export default function Save(props) {
     </View>
   );
 }
+
