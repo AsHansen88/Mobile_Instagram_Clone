@@ -1,21 +1,22 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function Add(Navigation) {
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [hasCameraPermission, setHasCameraPermissions] = useState(null);
-  const [image, setImage] = useState(null);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermissions] = useState(null)
+  const [camera, setCamera] = useState(null)
+  const [image, setImage] = useState(null)
+  const [type, setType] = useState(Camera.Constants.Type.back)
 
 
   useEffect(async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasCameraPermissions(status === 'granted');
+    const cameraStatus = await Camera.requestCameraPermissionsAsync();
+    setHasCameraPermissions(cameraStatus.status === 'granted');
 
-    const imagePickerStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    setHasPermissions(imagePickerStatus.status === 'granted');
+    const GalleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        setHasGalleryPermission(GalleryStatus.status === 'granted');
   }, []);
 
   const takePicture = async () => {
@@ -25,12 +26,7 @@ export default function Add(Navigation) {
     }
   }
 
-
-  if (!permission) {
-    return <View />;
-  }
-
-  const PickImage = async () => {
+ const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -43,7 +39,11 @@ export default function Add(Navigation) {
     }
   };
 
-  if (!hasCameraPermission) {
+  if (hasCameraPermission === null || hasGalleryPermission === false) {
+    return <View />;
+  }
+
+  if (hasCameraPermission === false || hasGalleryPermission === false) {
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
