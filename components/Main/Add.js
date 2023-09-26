@@ -36,7 +36,7 @@ export default function Add({ navigation }) {
   async function uploadImage(){
     const res = await fetch(imagepath)
     const blob = res.blob()
-    const storageRef = ref(storage, "Anders.jpg")
+    const storageRef = ref(storage, ".jpg")
     uploadBytes(storageRef, blob).then((snapshot) => {
       alert("Image Uploaded")
     })
