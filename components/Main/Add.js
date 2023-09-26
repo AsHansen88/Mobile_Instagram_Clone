@@ -4,6 +4,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-n
 import * as ImagePicker from 'expo-image-picker';
 //import  firebase from '../../firebase/storage'; 
 import { storage } from '../../firebase'; 
+import {ref, uploadBytes} from 'firebase/storage'
 
 export default function Add({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -11,6 +12,9 @@ export default function Add({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [imagepath, setImagepath] = useState(null)
+
+
 
   useEffect(() => {
     (async () => {
@@ -29,21 +33,14 @@ export default function Add({ navigation }) {
     }
   };
 
-  const uploadImageToFirebase = async (uri) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-  
-    const storageRef = storage.ref().child('images/' + new Date().getTime() + '.jpg');
-  
-    try {
-      await storageRef.put(blob);
-      const downloadURL = await storageRef.getDownloadURL();
-      setImage(downloadURL); 
-      console.log('Image uploaded to Firebase:', downloadURL);
-    } catch (error) {
-      console.error('Error uploading image to Firebase:', error);
-    }
-  };
+  async function uploadImage(){
+    const res = await fetch(imagepath)
+    const blob = res.blob()
+    const storageRef = ref(storage, "Anders.jpg")
+    uploadBytes(storageRef, blob).then((snapshot) => {
+      alert("Image Uploaded")
+    })
+  }
   
 
   const PickImage = async () => {
@@ -104,7 +101,7 @@ export default function Add({ navigation }) {
         />
          <Button
   title="Save"
-  onPress={() => uploadImageToFirebase('Save', {image})} 
+  onPress={() => uploadImage('Save', {uploadImage})} 
 />
 
       </View>
