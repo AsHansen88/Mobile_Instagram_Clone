@@ -81,6 +81,7 @@ export default function Add(Navigation) {
           <Button
           title="Save" onPress={() => Navigation.navigate('Save', { image })}/>
 
+
       </View>
     </View>
   );
