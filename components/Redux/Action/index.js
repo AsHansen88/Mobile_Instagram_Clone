@@ -1,14 +1,13 @@
 import { USER_POST_STATE_CHANGE, USER_STATE_CHANGE } from '../constants/index';
 import { auth, firestore } from '../../../firebase'; 
-import { doc, collection, query, orderBy, getDocs } from 'firebase/firestore'; 
-
+import { doc, getDoc, collection, query, orderBy, getDocs } from 'firebase/firestore'; 
 
 export function fetchUser() {
   return async (dispatch) => {
     const user = auth.currentUser;
 
     if (user) {
-      const userDocRef = doc(firestore, 'user', user.uid);
+      const userDocRef = doc(firestore, 'users', user.uid); // Use the correct collection name 'users'
 
       try {
         const snapshot = await getDoc(userDocRef);
@@ -24,7 +23,6 @@ export function fetchUser() {
       }
     } else {
       console.log('No user is currently logged in');
-      
     }
   };
 }
