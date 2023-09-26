@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
-//import { auth } from '../../firebase';
-//import firebase from '../../firebase';
-import * as firebase from '../../firebase'
-//import React, { Component } from 'react';
-//import { View, Button, TextInput } from 'react-native';
-import { auth, firestore } from '../../firebase';
+import { auth, firestore } from '../../firebase'; 
 import { createUserWithEmailAndPassword } from 'firebase/auth'; 
 
 export default class Login extends Component {
@@ -15,7 +10,7 @@ export default class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      name: ''
+      name: '',
     };
 
     // Bind the function properly
@@ -26,19 +21,33 @@ export default class Login extends Component {
     const { email, password, name } = this.state;
 
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password); // Use createUserWithEmailAndPassword from auth
-      await setDoc(doc(firestore, 'users', auth.currentUser.uid), { name, email }); // Use firestore functions
-      console.log(result);
+      // Create a new user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Access the user object
+      const user = userCredential.user;
+
+      // Add user data to Firestore
+      const userRef = firestore.collection('users').doc(user.uid);
+      await userRef.set({
+        name: name,
+        email: email,
+      });
+
+      console.log('User login successfully:', user);
     } catch (error) {
-      console.error(error);
+      console.error('Error during Login:', error);
     }
   }
-  
-  
 
   render() {
     return (
       <View>
+        
         <TextInput
           placeholder="name"
           onChangeText={(name) => this.setState({ name })}
@@ -63,7 +72,4 @@ export default class Login extends Component {
     );
   }
 }
-
-
-
 
