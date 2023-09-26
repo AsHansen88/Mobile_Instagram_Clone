@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Button, TextInput } from 'react-native';
 import { auth, firestore } from '../../firebase'; 
-import { createUserWithEmailAndPassword } from 'firebase/auth'; 
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'; 
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ export default class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      name: '',
+    
     };
 
     // Bind the function properly
@@ -18,11 +18,11 @@ export default class Login extends Component {
   }
 
   async onSignUp() {
-    const { email, password, name } = this.state;
+    const { email, password,} = this.state;
 
     try {
       // Create a new user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
@@ -34,8 +34,8 @@ export default class Login extends Component {
       // Add user data to Firestore
       const userRef = firestore.collection('users').doc(user.uid);
       await userRef.set({
-        name: name,
         email: email,
+        pasword: password
       });
 
       console.log('User login successfully:', user);

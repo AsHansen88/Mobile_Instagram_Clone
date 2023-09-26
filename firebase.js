@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 
 
@@ -20,12 +20,16 @@ const firebaseConfig = {
   appId: "1:94890513927:web:957899253c5eb79d7cfca2",
   measurementId: "G-TXTNEPLR66"
 };
-
-
+/*
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+*/
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 const CreateUser = createUserWithEmailAndPassword(app);
+const SignIn = signInWithEmailAndPassword(app)
 
-export { app, auth, firestore, storage, CreateUser };
+export { app, auth, firestore, storage, CreateUser, SignIn };
