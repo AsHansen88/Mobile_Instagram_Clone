@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Image, FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
+
 function Profile(props) {
   const { currentUser, posts } = props;
 
@@ -28,11 +29,13 @@ function Profile(props) {
     horizontal ={false}
     data={posts}
     renderItem={({item}) => (
-      <Image 
+    
+    <Image 
           style={styles.Image}
           source = {{uri: item.downloadURL}}
       />
-    )}
+    
+      )}
     />
 
     </View>
@@ -53,6 +56,9 @@ const styles = StyleSheet.create({
   Image: {
     flex: 1,
     aspectRatio: 1/1
+  },
+  containerImage: {
+    flex: 1/3
   }
 }) 
 

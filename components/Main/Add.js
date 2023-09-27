@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-n
 import * as ImagePicker from 'expo-image-picker';
 //import  firebase from '../../firebase/storage'; 
 import { storage } from '../../firebase'; 
-import {ref, uploadBytes} from 'firebase/storage'
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 import { getUnixTime } from 'date-fns'; // Import date-fns function for timestamp
 
 
@@ -55,10 +55,7 @@ export default function Add({ navigation }) {
     }
   }
   
-
-  
-  
-  
+ 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -119,7 +116,6 @@ export default function Add({ navigation }) {
   title="Save"
   onPress={() => uploadImage('Save', {image})} 
 />
-
       </View>
     </View>
   );
