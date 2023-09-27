@@ -5,6 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 //import  firebase from '../../firebase/storage'; 
 import { storage } from '../../firebase'; 
 import {ref, uploadBytes} from 'firebase/storage'
+import { getUnixTime } from 'date-fns'; // Import date-fns function for timestamp
+
 
 export default function Add({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -33,19 +35,27 @@ export default function Add({ navigation }) {
     }
   };
 
-  async function uploadImage() {
-    if (image) {
-      const res = await fetch(image);
-      const blob = await res.blob();
-      const storageRef = ref(storage, "Anders.jpg");
-      
-      uploadBytes(storageRef, blob).then((snapshot) => {
-        alert("Image Uploaded");
-      });
-    } else {
-      alert("No image selected");
-    }
+  
+
+async function uploadImage() {
+  if (image) {
+    const res = await fetch(image);
+    const blob = await res.blob();
+    
+    // Generate a unique file name using a timestamp
+    const timestamp = getUnixTime(new Date()); // Get current Unix timestamp
+    const fileName = `${timestamp}.jpg`; // Create a unique file name
+    
+    const storageRef = ref(storage, fileName);
+    
+    uploadBytes(storageRef, blob).then((snapshot) => {
+      alert("Image Uploaded");
+    });
+  } else {
+    alert("No image selected");
   }
+}
+
   
   
   
