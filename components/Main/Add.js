@@ -12,7 +12,7 @@ export default function Add({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [imagePath, setImagepath, editobj] = useState(null)
+  const [imagePath, setImagepath] = useState(null)
 
 
 
@@ -33,16 +33,20 @@ export default function Add({ navigation }) {
     }
   };
 
-  async function uploadImage(){
-
-    const res = await fetch(imagePath)
-    const blob = await res.blob()
-    const storageRef = ref(storage, editobj + ".jpg")
-    uploadBytes(storageRef, blob).then((snapshot) => {
-      alert ("Image Uploaded")  
-    })
-  
+  async function uploadImage() {
+    if (image) {
+      const res = await fetch(image);
+      const blob = await res.blob();
+      const storageRef = ref(storage, "Anders.jpg");
+      
+      uploadBytes(storageRef, blob).then((snapshot) => {
+        alert("Image Uploaded");
+      });
+    } else {
+      alert("No image selected");
+    }
   }
+  
   
   
   const PickImage = async () => {
@@ -103,7 +107,7 @@ export default function Add({ navigation }) {
         />
          <Button
   title="Save"
-  onPress={() => uploadImage('Save', {uploadImage})} 
+  onPress={() => uploadImage('Save', {image})} 
 />
 
       </View>
