@@ -29,32 +29,32 @@ export default function Add({ navigation }) {
   }, []);
 
   const takePicture = async () => {
+    console.log("Taking picture...");
     if (camera) {
       const photo = await camera.takePictureAsync();
-      uploadImageToFirebase(photo.uri);
+      uploadImage(photo.uri); // Pass the image URI to uploadImage function
     }
   };
-
   
-
-async function uploadImage() {
-  if (image) {
-    const res = await fetch(image);
-    const blob = await res.blob();
-    
-    // Generate a unique file name using a timestamp
-    const timestamp = getUnixTime(new Date()); // Get current Unix timestamp
-    const fileName = `${timestamp}.jpg`; // Create a unique file name
-    
-    const storageRef = ref(storage, fileName);
-    
-    uploadBytes(storageRef, blob).then((snapshot) => {
-      alert("Image Uploaded");
-    });
-  } else {
-    alert("No image selected");
+  async function uploadImage(imageUri) { // Receive the image URI as a parameter
+    if (imageUri) { // Check if imageUri is provided
+      const res = await fetch(imageUri);
+      const blob = await res.blob();
+      
+      // Generate a unique file name using a timestamp
+      const timestamp = getUnixTime(new Date()); // Get current Unix timestamp
+      const fileName = `${timestamp}.jpg`; // Create a unique file name
+      
+      const storageRef = ref(storage, fileName);
+      
+      uploadBytes(storageRef, blob).then((snapshot) => {
+        alert("Image Uploaded");
+      });
+    } else {
+      alert("No image selected");
+    }
   }
-}
+  
 
   
   
