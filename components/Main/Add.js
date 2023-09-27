@@ -12,7 +12,7 @@ export default function Add({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [imagepath, setImagepath] = useState(null)
+  const [imagePath, setImagepath, editobj] = useState(null)
 
 
 
@@ -34,15 +34,17 @@ export default function Add({ navigation }) {
   };
 
   async function uploadImage(){
-    const res = await fetch(imagepath)
-    const blob = res.blob()
-    const storageRef = ref(storage, ".jpg")
+
+    const res = await fetch(imagePath)
+    const blob = await res.blob()
+    const storageRef = ref(storage, editobj + ".jpg")
     uploadBytes(storageRef, blob).then((snapshot) => {
-      alert("Image Uploaded")
+      alert ("Image Uploaded")  
     })
+  
   }
   
-
+  
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
