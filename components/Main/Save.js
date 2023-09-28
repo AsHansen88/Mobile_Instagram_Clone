@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Image, Button, Alert } from 'react-native';
 import { auth, storage } from '../../firebase';
 
+
 export default function Save({ route, navigation }) {
   const [caption, setCaption] = useState('');
 
@@ -37,6 +38,7 @@ export default function Save({ route, navigation }) {
     }
   };
 
+  
   return (
     <View style={{ flex: 1 }}>
       <Image source={{ uri: route.params.image }} />

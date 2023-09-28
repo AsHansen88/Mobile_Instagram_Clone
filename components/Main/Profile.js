@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { auth } from '../../firebase';  // Assuming you have Firebase initialized
+import { auth } from '../../firebase'; // Assuming you have Firebase initialized
 import { useNavigation } from '@react-navigation/native';
+import { getDownloadURL, ref } from 'firebase/storage'; // Import storage methods from Firebase storage
+import { storage } from '../../firebase';
 
 function Profile(props) {
   const navigation = useNavigation(); // Hook for navigation
@@ -16,6 +18,18 @@ function Profile(props) {
       console.error('Error logging out:', error);
     }
   };
+
+  const [imagePath, setImagePath] = useState('');
+
+  async function downloadImage() {
+    try {
+      const imageRef = ref(storage, 'Anders.jpg'); // Create a reference to your image in storage
+      const url = await getDownloadURL(imageRef); // Get the download URL for the image
+      setImagePath(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  }
 
   const { currentUser, posts } = props; // Access currentUser via props
 
@@ -33,19 +47,19 @@ function Profile(props) {
         )}
       </View>
 
+      {imagePath && <Image style={styles.Image} source={{ uri: imagePath }} />}
+
       <FlatList
         numColumns={3}
         horizontal={false}
         data={posts}
         renderItem={({ item }) => (
-          <Image
-            style={styles.Image}
-            source={{ uri: item.downloadURL }}
-          />
+          <Image style={styles.Image} source={{ uri: item.downloadURL }} />
         )}
       />
 
       <Button title="Logout" onPress={handleLogout} />
+      <Button title="Download Image" onPress={downloadImage} />
     </View>
   );
 }

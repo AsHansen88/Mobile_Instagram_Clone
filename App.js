@@ -16,7 +16,6 @@ import MainScreen from './components/Main.js'
 import AddScreen  from './components/Main/Add'
 import SaveScreen  from './components/Main/Save'
 
-
 const store = configureStore({
   reducer: rootReducer,
   middleware: (applyMiddleware) => {
